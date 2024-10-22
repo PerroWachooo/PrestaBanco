@@ -4,17 +4,26 @@ import com.example.demo.repositories.LoanAplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 
 @Service
 public class LoanAplicationService {
     @Autowired
     LoanAplicationRepository loanAplicationRepository;
 
+
     public ArrayList<LoanAplicactionEntity> getLoans(){
         return(ArrayList<LoanAplicactionEntity>) loanAplicationRepository.findAll();
 
     }
 
+    public Optional<LoanAplicactionEntity> getLoanAplicationById(Long id){
+        return loanAplicationRepository.findById(id);
+
+    }
 
     public ArrayList<LoanAplicactionEntity> getLoansByRut(String rut){
         return(ArrayList<LoanAplicactionEntity>) loanAplicationRepository.findAllByRutUser(rut);
@@ -43,5 +52,14 @@ public class LoanAplicationService {
         }
 
     }
+
+    // En el servicio que maneja la lógica de la base de datos
+    public byte[] getFileDataFromOid(Long oid) {
+        String sql = "SELECT lo_get(?)";  // La función lo_get() recupera el contenido de un OID
+        return jdbcTemplate.queryForObject(sql, new Object[] { oid }, byte[].class);
+    }
+
+
+
 
 }
