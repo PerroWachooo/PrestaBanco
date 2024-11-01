@@ -20,10 +20,11 @@ public class LoanAplicationService {
 
     }
 
-    public Optional<LoanAplicactionEntity> getLoanAplicationById(Long id){
-        return loanAplicationRepository.findById(id);
 
-    }
+
+    public Optional <LoanAplicactionEntity> getLoanAplicationById(Long id){return loanAplicationRepository.findById(id);}
+
+
 
     public ArrayList<LoanAplicactionEntity> getLoansByRut(String rut){
         return(ArrayList<LoanAplicactionEntity>) loanAplicationRepository.findAllByRutUser(rut);
@@ -53,11 +54,6 @@ public class LoanAplicationService {
 
     }
 
-    // En el servicio que maneja la lógica de la base de datos
-    public byte[] getFileDataFromOid(Long oid) {
-        String sql = "SELECT lo_get(?)";  // La función lo_get() recupera el contenido de un OID
-        return jdbcTemplate.queryForObject(sql, new Object[] { oid }, byte[].class);
-    }
 
 
 

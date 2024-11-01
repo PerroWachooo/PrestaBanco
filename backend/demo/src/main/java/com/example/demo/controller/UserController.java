@@ -30,13 +30,13 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<UserEntity> registerUser(@RequestBody UserEntity user){
         UserEntity newUser = userService.registerUser(user);
         return ResponseEntity.ok(newUser);
     }
 
-   @PutMapping("/")
+   @PutMapping("/update")
    public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user){
        UserEntity updatedUser = userService.updateUser(user);
        return ResponseEntity.ok(updatedUser);

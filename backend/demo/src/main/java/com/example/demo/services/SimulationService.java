@@ -6,8 +6,10 @@ import com.example.demo.entities.LoanAplicactionEntity;
 import com.example.demo.repositories.LoanAplicationRepository;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import static java.lang.Math.round;
-
+@Service
 public class SimulationService {
 
     UserRepository userRepository;
@@ -19,19 +21,21 @@ public class SimulationService {
 
     //P1
     //Simulation of credit
-    public double monthlyPaymentCal(LoanAplicactionEntity loan) {
-        int p = loan.getAmount();
-        int n = loan.getTerm() * 12; //Number of month to pay
-        float r = loan.getAnualInterestRate() / 12; //Monthly fee rate
+    //p: monto del prestamo
+    //n: Plazo del prestamo
+    //r: tasa de intereses
+    public double monthlyPaymentCal(int p, int n, float r) {
+        int monthlypay = n * 12; // Número de meses
+        float monthlyfee = r / 12 / 100; // Tasa de interés mensual
 
-        double fracUp = r * (Math.pow((1 + r), n));
-        double fracDown = Math.pow((1 + r), n) - 1;
+        double fracUp = monthlyfee * Math.pow(1 + monthlyfee, monthlypay);
+        double fracDown = Math.pow(1 + monthlyfee, monthlypay) - 1;
 
-        double m = p * fracUp / fracDown;
-        loan.setFee(m);
-        loanAplicationRepository.save(loan);
+        double m = p * (fracUp / fracDown);
 
-        return loan.getFee();
+        // Redondear el resultado a dos decimales
+        BigDecimal bd = new BigDecimal(m).setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public double feeIncomeRelation(LoanAplicactionEntity loan, UserEntity user) {
@@ -136,7 +140,7 @@ public class SimulationService {
     //Desc: Calculate total costs
 
     public double totalCostCal(LoanAplicactionEntity loan) {
-        double monthlyPayment = simulationService.monthlyPaymentCal(loan);
+        double monthlyPayment = simulationService.monthlyPaymentCal(loan.getAmount(),loan.getTerm(), loan.getAnualInterestRate());
         double monthlyCreditInsurance = loan.getCreditInsuarance()*loan.getAmount();
         double AdministrationCommission = loan.getAdministrationCommission()*loan.getAmount();
 

@@ -1,9 +1,11 @@
 package com.example.demo.services;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -36,8 +38,32 @@ public class UserService {
     }
 
     public UserEntity updateUser(UserEntity user) {
-        return userRepository.save(user);
+        // Verifica si el usuario ya existe en la base de datos
+        Optional<UserEntity> existingUser = userRepository.findById(user.getId());
+
+        if (existingUser.isPresent()) {
+            // Si existe, actualiza los datos necesarios
+            UserEntity userToUpdate = existingUser.get();
+            userToUpdate.setRut(user.getRut());
+            userToUpdate.setPassword(user.getPassword());
+            userToUpdate.setMail(user.getMail());
+            userToUpdate.setName(user.getName());
+            userToUpdate.setAge(user.getAge());
+            userToUpdate.setState_hist(user.getState_hist());
+            userToUpdate.setWork(user.getWork());
+            userToUpdate.setYears_working(user.getYears_working());
+            userToUpdate.setIncome(user.getIncome());
+            userToUpdate.setDebt(user.getDebt());
+            userToUpdate.setYearsAccount(user.getYearsAccount());
+            userToUpdate.setBalanceAccount(user.getBalanceAccount());
+
+            // Guarda el usuario actualizado
+            return userRepository.save(userToUpdate);
+        } else {
+            throw new EntityNotFoundException("El usuario con ID " + user.getId() + " no existe.");
+        }
     }
+
 
     public boolean deleteUser(Long id) throws Exception {
         try{

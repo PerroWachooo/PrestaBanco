@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import './App.css'
 import Home from './components/Home'
+import Navbar from './components/Navbar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AddEditUser from './components/AddEditUsesr';
+import UsersList from './components/UsersList';
+import SimulateLoan from './components/SimulateLoan';
+import AddSolicitud from './components/AddSolicitud';
 
 
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+    
+      <div className="container">
+      <Navbar></Navbar> 
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/user/list" element={<UsersList />} />
+          <Route path= "/user/register" element={<AddEditUser/>}/>
+          <Route path= "/user/register/:id" element={<AddEditUser/>}/>
+          <Route path= "/simulation" element={<SimulateLoan/>}/>
+          <Route path= "/aplication" element={<AddSolicitud/>}/>
+          <Route path= "/aplication/:id" element={<AddSolicitud/>}/>
+        </Routes>
+
+      </div>
     </BrowserRouter>
 
   );

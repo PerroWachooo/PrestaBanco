@@ -30,7 +30,7 @@ import jakarta.persistence.*;
         private double creditInsuarance; //Insurance percentage if user die
         private double monthlyFireInsurance; //Insurance percentage if house burn down
         private double administrationCommission; //Percentage of administration commission
-
+        private double propertyValue; //Value of the proerty
         private boolean consistentSaveCheck; //Check for R7 true: has consitent Saves
         private boolean periodicDepositsCheck; //Check for R7 true: make periodic deposits
         private boolean recentWithdrawCheck; //Check for R7 false: hasnt withdraw a big amount
