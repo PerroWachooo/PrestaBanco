@@ -6,6 +6,7 @@ import com.example.demo.entities.LoanAplicactionEntity;
 import com.example.demo.repositories.LoanAplicationRepository;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,9 +22,7 @@ public class SimulationService {
     @Autowired
     LoanAplicationService loanAplicationService;
 
-    @Autowired
 
-    SimulationService simulationService;
 
     // P1
     // Simulation of credit
