@@ -5,25 +5,31 @@ import com.example.demo.entities.LoanEntity;
 import com.example.demo.entities.LoanAplicactionEntity;
 import com.example.demo.repositories.LoanAplicationRepository;
 import com.example.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import static java.lang.Math.round;
+
 @Service
 public class SimulationService {
 
+    @Autowired
     UserRepository userRepository;
+    @Autowired
     LoanAplicationRepository loanAplicationRepository;
+    @Autowired
     LoanAplicationService loanAplicationService;
+
+    @Autowired
 
     SimulationService simulationService;
 
-
-    //P1
-    //Simulation of credit
-    //p: monto del prestamo
-    //n: Plazo del prestamo
-    //r: tasa de intereses
+    // P1
+    // Simulation of credit
+    // p: monto del prestamo
+    // n: Plazo del prestamo
+    // r: tasa de intereses
     public double monthlyPaymentCal(int p, int n, float r) {
         int monthlypay = n * 12; // Número de meses
         float monthlyfee = r / 12 / 100; // Tasa de interés mensual
@@ -46,19 +52,15 @@ public class SimulationService {
     }
 
     public boolean debtIncomeRelationCheck(LoanAplicactionEntity loan, UserEntity user) {
-        while (user.getDebt() >= 0 && loan.getFee() != 0) {
-            double totalDebt = user.getDebt() + loan.getFee();
-            int halfIncome = user.getIncome() / 2;
+        double totalDebt = user.getDebt() + loan.getFee();
+        int halfIncome = user.getIncome() / 2;
+        if (halfIncome < totalDebt) {
 
-            if (halfIncome < totalDebt) {
-                System.out.println("Loan Aplication Rejected, Debt Income Relation didnt meet the requirment");
-                return false;
-            } else {
-                return true;
-            }
+            System.out.println("Loan Aplication Rejected, Debt Income Relation didnt meet the requirment");
+            return false;
+        } else {
+            return true;
         }
-        throw new IllegalArgumentException("Debt or Fee are incorrect, pleasef check");
-
     }
 
     public boolean ageCheck(UserEntity user) {
@@ -75,30 +77,27 @@ public class SimulationService {
             return true;
 
         } else {
-            return false; //If the job is indepdent or have less than 1 year working
+            return false; // If the job is indepdent or have less than 1 year working
         }
-
 
     }
 
-
-    //R7.1
+    // R7.1
     public boolean minBalanceRequiredCheck(UserEntity user, LoanAplicactionEntity loan) {
-        if (user.getBalanceAccount() >= loan.getAmount() * 0.1) { //The client need at leas 10% in their acount
+        if (user.getBalanceAccount() >= loan.getAmount() * 0.1) { // The client need at leas 10% in their acount
             return true;
         } else {
             return false;
         }
     }
 
-
-    //R7.4
+    // R7.4
     public boolean balanceYearsWorkingRelationCheck(UserEntity user, LoanAplicactionEntity loan) {
         if (user.getYearsAccount() < 2) {
             if (user.getBalanceAccount() >= loan.getAmount() * 0.2) {
                 return true;
             }
-        } else if (user.getYearsAccount() >= 2) {
+        } else {
             if (user.getBalanceAccount() >= loan.getAmount() * 0.1) {
                 return true;
             }
@@ -107,53 +106,55 @@ public class SimulationService {
         return false;
     }
 
-
-    //R7
-    //Desc: Check all the requirment from R7
-    public boolean saveCapacityCheck(LoanAplicactionEntity loan, UserEntity user){
+    // R7
+    // Desc: Check all the requirment from R7
+    public boolean saveCapacityCheck(LoanAplicactionEntity loan, UserEntity user) {
         int evaluation = 0;
-        if(minBalanceRequiredCheck(user,loan)){evaluation+=1;}
-        if(loan.isConsistentSaveCheck()){evaluation+=1;}
-        if(loan.isPeriodicDepositsCheck()){evaluation+=1;}
-        if(balanceYearsWorkingRelationCheck(user,loan)){evaluation=+1;}
-        if(!loan.isRecentWithdrawCheck()){evaluation=+1;}
+        if (minBalanceRequiredCheck(user, loan)) {
+            evaluation += 1;
+        }
+        if (loan.isConsistentSaveCheck()) {
+            evaluation += 1;
+        }
+        if (loan.isPeriodicDepositsCheck()) {
+            evaluation += 1;
+        }
+        if (balanceYearsWorkingRelationCheck(user, loan)) {
+            evaluation += 1;
+        }
+        if (!loan.isRecentWithdrawCheck()) {
+            evaluation += 1;
+        }
 
-        if(evaluation == 5) {
+        if (evaluation == 5) {
             loan.setSave_capacity("solida");
             loanAplicationService.updateLoan(loan);
             return true;
-        }
-        else if (evaluation== 3 || evaluation==4) {
+        } else if (evaluation == 3 || evaluation == 4) {
             loan.setSave_capacity("moderada");
             loanAplicationService.updateLoan(loan);
             return true;
-        }
-        else {
+        } else {
             loan.setSave_capacity("insuficiente");
             loanAplicationService.updateLoan(loan);
             return false;
         }
     }
 
-
-    //P6
-    //Desc: Calculate total costs
+    // P6
+    // Desc: Calculate total costs
 
     public double totalCostCal(LoanAplicactionEntity loan) {
-        double monthlyPayment = simulationService.monthlyPaymentCal(loan.getAmount(),loan.getTerm(), loan.getAnualInterestRate());
-        double monthlyCreditInsurance = loan.getCreditInsuarance()*loan.getAmount();
-        double AdministrationCommission = loan.getAdministrationCommission()*loan.getAmount();
+        double monthlyPayment = monthlyPaymentCal(loan.getAmount(), loan.getTerm(),
+                loan.getAnualInterestRate());
+        double monthlyCreditInsurance = loan.getCreditInsuarance() * loan.getAmount();
+        double AdministrationCommission = loan.getAdministrationCommission() * loan.getAmount();
 
         double monthlyCost = monthlyPayment + monthlyCreditInsurance + loan.getMonthlyFireInsurance();
-        int months = loan.getTerm()/12;
+        int months = loan.getTerm() / 12;
 
-        return  monthlyCost * months + AdministrationCommission;
+        return monthlyCost * months + AdministrationCommission;
 
     }
 
-
 }
-
-
-
-

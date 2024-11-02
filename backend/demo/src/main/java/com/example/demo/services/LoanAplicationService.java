@@ -1,4 +1,5 @@
 package com.example.demo.services;
+
 import com.example.demo.entities.LoanAplicactionEntity;
 import com.example.demo.repositories.LoanAplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,54 +9,45 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class LoanAplicationService {
     @Autowired
     LoanAplicationRepository loanAplicationRepository;
 
-
-    public ArrayList<LoanAplicactionEntity> getLoans(){
-        return(ArrayList<LoanAplicactionEntity>) loanAplicationRepository.findAll();
+    public ArrayList<LoanAplicactionEntity> getLoans() {
+        return (ArrayList<LoanAplicactionEntity>) loanAplicationRepository.findAll();
 
     }
 
-
-
-    public Optional <LoanAplicactionEntity> getLoanAplicationById(Long id){return loanAplicationRepository.findById(id);}
-
-
-
-    public ArrayList<LoanAplicactionEntity> getLoansByRut(String rut){
-        return(ArrayList<LoanAplicactionEntity>) loanAplicationRepository.findAllByRutUser(rut);
+    public Optional<LoanAplicactionEntity> getLoanAplicationById(Long id) {
+        return loanAplicationRepository.findById(id);
     }
 
-    public LoanAplicactionEntity saveLoan (LoanAplicactionEntity loan){
+    public ArrayList<LoanAplicactionEntity> getLoansByRut(String rut) {
+        return (ArrayList<LoanAplicactionEntity>) loanAplicationRepository.findAllByRutUser(rut);
+    }
+
+    public LoanAplicactionEntity saveLoan(LoanAplicactionEntity loan) {
         return loanAplicationRepository.save(loan);
     }
 
-    public LoanAplicactionEntity updateLoan (LoanAplicactionEntity loan){
+    public LoanAplicactionEntity updateLoan(LoanAplicactionEntity loan) {
         return loanAplicationRepository.save(loan);
     }
 
-
-    public LoanAplicactionEntity updateStateLoan(LoanAplicactionEntity loan, String newState){
+    public LoanAplicactionEntity updateStateLoan(LoanAplicactionEntity loan, String newState) {
         loan.setState(newState);
         return loanAplicationRepository.save(loan);
     }
 
     public boolean deleteLoan(Long id) throws Exception {
-        try{
+        try {
             loanAplicationRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("Delete failed",e);
         }
 
     }
-
-
-
-
 
 }
