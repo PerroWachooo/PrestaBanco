@@ -12,7 +12,9 @@ pipeline {
         stage('Build JAR File') {
             steps {
                 dir("backend/demo") {
-                    bat "mvn clean install"
+                    timeout(time: 5, unit: 'MINUTES'){
+                        bat "mvn clean install"
+                    }
                 }
             }
         }
