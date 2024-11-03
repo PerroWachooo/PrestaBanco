@@ -13,7 +13,7 @@ pipeline {
         stage("Build JAR File") {
             steps {
                 dir("backend/demo") {
-                    mvn clean install -X // Usa 'sh' si estás en un entorno Unix/Linux
+                    bat "mvn clean install -X"// Usa 'sh' si estás en un entorno Unix/Linux
                 }
             }
         }
