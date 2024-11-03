@@ -12,6 +12,12 @@ pipeline {
         stage("Build JAR File") {
             steps {
                 dir("backend/demo") {
+                    // Verify we're in the correct directory
+                    bat 'echo Building in directory: %CD%'
+                    bat 'dir'
+                    // Check if pom.xml exists
+                    bat 'if exist pom.xml (echo Found pom.xml) else (echo pom.xml not found && exit 1)'
+                
                     bat "mvn clean install" // Usa 'sh' si estás en un entorno Unix/Linux
                 }
             }
