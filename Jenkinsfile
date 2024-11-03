@@ -7,21 +7,21 @@ pipeline {
         stage("Build JAR File") {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/PerroWachooo/PrestaBanco']])
-                dir("back/managment") {
+                dir("backend/demo") {
                     bat "mvn clean install"
                 }
             }
         }
         stage("Test") {
             steps {
-                dir("back/managment") {
+                dir("backend/demo") {
                     bat "mvn test"
                 }
             }
         }        
         stage("Build and Push Docker Image") {
             steps {
-                dir("back/managment") {
+                dir("backend/demo") {
                     script {
                         bat "docker context use default"
                         withDockerRegistry(credentialsId: 'docker-credentials') {
