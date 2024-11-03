@@ -10,11 +10,9 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/PerroWachooo/PrestaBanco']])
             }
         }
-        stage("Build JAR File") {
+        stage('Build JAR File') {
             steps {
-                dir("backend/demo") {
-                    call "mvn clean install"// Usa 'sh' si estás en un entorno Unix/Linux
-                }
+                bat 'build-maven.bat'
             }
         }
         stage("Test") {
