@@ -6,14 +6,14 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                bat "mvn --version"
+                
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/PerroWachooo/PrestaBanco']])
             }
         }
         stage("Build JAR File") {
             steps {
                 dir("backend/demo") {
-                    bat "mvn clean install" // Usa 'sh' si estás en un entorno Unix/Linux
+                    bat "mvn clean install -X" // Usa 'sh' si estás en un entorno Unix/Linux
                 }
             }
         }
