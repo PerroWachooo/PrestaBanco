@@ -23,7 +23,6 @@ pipeline {
             steps {
                 dir("backend/demo") {
                     script {
-                        bat "docker context use default"
                         withDockerRegistry(credentialsId: 'docker-credentials') {
                             bat "docker build -t bastianbrito/spring-image ."
                             bat "docker push bastianbrito/spring-image"
