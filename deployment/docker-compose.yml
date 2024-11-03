@@ -98,10 +98,10 @@ services:
   react1:
     container_name: prestabanco-frontend-container-1
     image: bastianbrito/prestabanco-frontend
-    networks:
-      - prestabanco-frontend-network
     ports:
       - 3001:3000
+    networks:
+      - prestabanco-frontend-network
     deploy:
       restart_policy:
         condition: on-failure
@@ -110,10 +110,10 @@ services:
   react2:
     container_name: prestabanco-frontend-container-2
     image: bastianbrito/prestabanco-frontend
-    networks:
-      - prestabanco-frontend-network
     ports:
       - 3002:3000
+    networks:
+      - prestabanco-frontend-network
     deploy:
       restart_policy:
         condition: on-failure
