@@ -12,14 +12,14 @@ pipeline {
         stage("Build JAR File") {
             steps {
                 dir("backend/demo") {
-                    bat "mvn clean install" // Usa 'sh' si estás en un entorno Unix/Linux
+                    bat 'mvn clean install' // Usa 'sh' si estás en un entorno Unix/Linux
                 }
             }
         }
         stage("Test") {
             steps {
                 dir("backend/demo") {
-                    bat "mvn test" // Usa 'sh' si estás en un entorno Unix/Linux
+                    bat 'mvn test' // Usa 'sh' si estás en un entorno Unix/Linux
                 }
             }
         }
@@ -28,8 +28,8 @@ pipeline {
                 dir("backend/demo") {
                     script {
                         withDockerRegistry(credentialsId: 'docker-credentials') {
-                            bat "docker build -t bastianbrito/spring-image ." // Usa 'sh' si estás en un entorno Unix/Linux
-                            bat "docker push bastianbrito/spring-image" // Usa 'sh' si estás en un entorno Unix/Linux
+                            bat 'docker build -t bastianbrito/spring-image .' // Usa 'sh' si estás en un entorno Unix/Linux
+                            bat 'docker push bastianbrito/spring-image' // Usa 'sh' si estás en un entorno Unix/Linux
                         }
                     }
                 }
