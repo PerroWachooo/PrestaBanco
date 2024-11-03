@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
+                bat "mvn --version"
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/PerroWachooo/PrestaBanco']])
             }
         }
