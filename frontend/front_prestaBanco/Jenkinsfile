@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages {
-        stage("Biuld Frontend") {
+        stage("Build Frontend") {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/PerroWachooo/PrestaBanco']])
                 dir("frontend/front_prestaBanco") {
