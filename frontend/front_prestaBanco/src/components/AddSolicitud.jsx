@@ -55,6 +55,7 @@ const AddSolicitud = () => {
     
     const { id } = useParams();
     const navigate = useNavigate();
+    const [formDisabled, setFormDisabled] = useState(false);
 
      // Obtener restricciones basadas en el tipo de préstamo seleccionado
      const { rateRange, maxPercentage, maxTerm } = getLoanRestrictions(loan_type);
@@ -83,25 +84,6 @@ const AddSolicitud = () => {
      };
 
      const isFormValid = () => {
-        console.log({
-            rutUser,
-            state,
-            amount,
-            anualInterestRate,
-            term,
-            loan_type,
-            fee,
-            propertyValue,
-            incomeFile,
-            certificadoAvaluo,
-            historialCrediticio,
-            escrituraPrimeraVivienda,
-            estadoFinancieroNegocio,
-            planNegocios,
-            presupuestoRemodelacion,
-            certificadoAvaluoActualizado,
-        });
-        
         const baseValidation = rutUser && state && amount > 0 && anualInterestRate > 0 &&
                               term > 0 && loan_type && fee > 0 && propertyValue > 0 && incomeFile;
         
@@ -133,7 +115,7 @@ const AddSolicitud = () => {
     const saveLoanAplication = (e) => {
         e.preventDefault();
 
-        setState("E3")
+        setState("E3");
         
         if (!isFormValid()) {
             alert("Por favor complete todos los campos obligatorios");
@@ -174,9 +156,9 @@ const AddSolicitud = () => {
         
 
         if(id){ 
-            LoanAplicationService.update(formData).then((response) => {
+            LoanAplicationService.update(formData,id).then((response) => {
                 console.log("Solicitud actualizada",response.data);
-                navigate("/home"); //Cambiar a solicitud list
+                navigate("/aplication/list"); //Cambiar a solicitud list
             })
         
             .catch((error) => {
@@ -186,7 +168,7 @@ const AddSolicitud = () => {
         }else{
             LoanAplicationService.create(formData).then((response) => {
                 console.log("Solicitud creada", response.data);
-                navigate("/home"); //Cambiar a solicitud list
+                navigate("/aplication/list"); //Cambiar a solicitud list
             })
             .catch((error) => {
                 console.log("Ocurrio un error al crear la solicitud", error);
@@ -199,12 +181,15 @@ const AddSolicitud = () => {
         if(id){
             LoanAplicationService.getLoanAplicationById(id).then((response) => {
                 const loanAplication = response.data;
+                setRutUser(loanAplication.rutUser);
+                setPropertyValue(loanAplication.propertyValue);
                 setAmount(loanAplication.amount);
                 setAnualInterestRate(loanAplication.anualInterestRate);
                 setTerm(loanAplication.term);
                 setLoan_type(loanAplication.loan_type);
                 setFee(loanAplication.fee);
-                
+                // Disable form fields when id is present
+                setFormDisabled(true);
             })
             .catch((error) => {
                 console.log("Ocurrio un error al obtener la solicitud", error);
@@ -227,6 +212,7 @@ const AddSolicitud = () => {
                     value={rutUser}
                     onChange={(e) => setRutUser(e.target.value)}
                     error={!rutUser && !isFormValid()}
+                    disabled={formDisabled}
                     />
                 
                     <TextField
@@ -237,6 +223,7 @@ const AddSolicitud = () => {
                         variant="standard"
                         onChange={(e) => setLoan_type(e.target.value)}
                         error={!loan_type && !isFormValid()}
+                        disabled={formDisabled}
                     >
                         <MenuItem value="Primera vivienda">Primera vivienda</MenuItem>
                         <MenuItem value="Segunda vivienda">Segunda vivienda</MenuItem>
@@ -250,6 +237,7 @@ const AddSolicitud = () => {
                     value={propertyValue}
                     onChange={(e) => setPropertyValue(e.target.value)}
                     error={!propertyValue && !isFormValid()}
+                    disabled={formDisabled}
                 />
                 
                 <TextField
@@ -259,7 +247,7 @@ const AddSolicitud = () => {
                     onChange={handleAmountChange} // Llama a la función de validación
                     helperText={`El monto máximo permitido es ${maxFinancingAmount}`}
                     inputProps={{ max: maxFinancingAmount }}
-                    disabled={!propertyValue} // Deshabilitar si no hay valor de la propiedad
+                    disabled={!propertyValue || formDisabled} // Deshabilitar si no hay valor de la propiedad o si formDisabled es true
                     error={amount <= 0 && !isFormValid()}
                 />
                 
@@ -275,6 +263,7 @@ const AddSolicitud = () => {
                         { value: rateRange.min, label: `${rateRange.min}%` },
                         { value: rateRange.max, label: `${rateRange.max}%` },
                     ]}
+                    disabled={formDisabled}
                 />
                 
                 <TextField
@@ -285,13 +274,14 @@ const AddSolicitud = () => {
                     helperText={`El plazo máximo permitido es ${maxTerm} años`}
                     inputProps={{ max: maxTerm }}
                     error={term <= 0 && !isFormValid()}
+                    disabled={formDisabled}
                 />
                 
                 <TextField
                     label="Cuota Mensual"
                     type="number"
                     value={fee.toFixed(0)}
-                    disabled={!amount || !anualInterestRate || !term}
+                    disabled={!amount || !anualInterestRate || !term || formDisabled}
                     InputProps={{
                         readOnly: true,
                     }}

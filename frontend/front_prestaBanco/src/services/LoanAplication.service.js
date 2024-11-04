@@ -1,12 +1,11 @@
 import httpCommon from "../http-common";
 
-
 const getAllLoanAplications = () => {
     return httpCommon.get("api/v1/loanaplication/");
 }
 
-const getLoanAplicationByUser = data => {
-    return hhtpCommon.get(`api/v1/loanaplication/by-user`, data);
+const getLoanAplicationByRut = rut => {
+    return httpCommon.get(`api/v1/loanaplication/by-user/${rut}`);
 }
 
 const getLoanAplicationById = id => {
@@ -21,8 +20,8 @@ const create = (formData) => {
     });
 }
 
-const update = (formData    ) => {
-    return httpCommon.post("api/v1/loanaplication/", formData,{
+const update = (formData,id) => {
+    return httpCommon.put(`api/v1/loanaplication/${id}`, formData,{
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -41,11 +40,8 @@ const uploadFiles = (formData, id) => {
     });
 }
 
-
-
 const calculateFee = data => {
     return httpCommon.post("api/v1/loanaplication/calculateFee", data);
 }
 
-
-export default {getAllLoanAplications, getLoanAplicationByUser, create, update, deleteLoanAplication, uploadFiles,calculateFee, getLoanAplicationById};
+export default {getAllLoanAplications, getLoanAplicationByRut, create, update, deleteLoanAplication, uploadFiles,calculateFee, getLoanAplicationById};

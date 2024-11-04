@@ -33,23 +33,33 @@ export default function Sidemenu({ open, toggleDrawer }) {
           </ListItemIcon>
           <ListItemText primary="Registrar o editar usuarios" />
         </ListItemButton>
+
         <ListItemButton onClick={() => navigate("/user/list")}>
           <ListItemIcon>
           <PlusIcon/>
           </ListItemIcon>
           <ListItemText primary="Ver Usuarios" />
         </ListItemButton>
+
         <ListItemButton onClick={() => navigate("/aplication")}>
           <ListItemIcon>
           <PlusIcon/>
           </ListItemIcon>
           <ListItemText primary="Solicitar Credito" />
         </ListItemButton>
+
         <ListItemButton onClick={() => navigate("/simulation")}>
           <ListItemIcon>
           <PlusIcon/>
           </ListItemIcon>
           <ListItemText primary="Simular credito" />
+        </ListItemButton>
+
+        <ListItemButton onClick={() => navigate("/aplication/list")}>
+          <ListItemIcon>
+          <PlusIcon/>
+          </ListItemIcon>
+          <ListItemText primary="Ver solicitudes" />
         </ListItemButton>
         
         

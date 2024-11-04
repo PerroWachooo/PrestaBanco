@@ -8,6 +8,7 @@ import AddEditUser from './components/AddEditUsesr';
 import UsersList from './components/UsersList';
 import SimulateLoan from './components/SimulateLoan';
 import AddSolicitud from './components/AddSolicitud';
+import LoanAplicationList from './components/LoanAplicationList';
 
 
 
@@ -25,6 +26,7 @@ function App() {
           <Route path= "/simulation" element={<SimulateLoan/>}/>
           <Route path= "/aplication" element={<AddSolicitud/>}/>
           <Route path= "/aplication/:id" element={<AddSolicitud/>}/>
+          <Route path= "/aplication/list" element={<LoanAplicationList/>}/>
         </Routes>
 
       </div>
