@@ -139,7 +139,7 @@ const SimulateLoan = () => {
         loanAplicationServices.create(loanAplication)
             .then((response) => {
                 console.log("Simulación creada", response.data);
-                navigate("/home"); //Cambiar a lista de solicitudes por el id de la transacción
+                navigate(`/aplication/${response.data.id}`); // Redirigir usando el id de la respuesta
             })
             .catch((error) => {
                 console.log("Ocurrió un error al crear la simulación", error);
@@ -267,8 +267,7 @@ const SimulateLoan = () => {
                     color="info"
                     startIcon={<AttachMoneyIcon />}
                     onClick={(e)=>{
-                        saveLoanAplication(e);
-                        navigate("/aplicaton")}} //Cambiar a solicitar
+                        saveLoanAplication(e);}} //Cambiar a solicitar
                     >
                     Solicitar Credito
                 </Button>

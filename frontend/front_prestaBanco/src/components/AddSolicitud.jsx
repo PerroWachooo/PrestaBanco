@@ -56,6 +56,7 @@ const AddSolicitud = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [formDisabled, setFormDisabled] = useState(false);
+    const [formDisabledRut, setFormDisabledRut] = useState(false);
 
      // Obtener restricciones basadas en el tipo de préstamo seleccionado
      const { rateRange, maxPercentage, maxTerm } = getLoanRestrictions(loan_type);
@@ -195,6 +196,10 @@ const AddSolicitud = () => {
                 console.log("Ocurrio un error al obtener la solicitud", error);
             });
         }
+        if(rutUser !== ""){
+            setFormDisabledRut(true);
+        }
+
         if (amount && anualInterestRate && term) {
             feeCalculation();
         }
@@ -211,8 +216,8 @@ const AddSolicitud = () => {
                     label="Rut Usuario"
                     value={rutUser}
                     onChange={(e) => setRutUser(e.target.value)}
-                    error={!rutUser && !isFormValid()}
-                    disabled={formDisabled}
+                    error={!rutUser}
+                    disabled={formDisabledRut}
                     />
                 
                     <TextField

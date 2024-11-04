@@ -24,6 +24,15 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/by-rut/{rut}")
+    public ResponseEntity<UserEntity> userByrut(@PathVariable String rut){
+        UserEntity user = userService.getUserByRut(rut);
+        return ResponseEntity.ok(user);
+    }
+
+
+
+
     @GetMapping("/{id}")
     public ResponseEntity<UserEntity> getEmployeeById(@PathVariable Long id) {
         UserEntity user = userService.getUserById(id);
