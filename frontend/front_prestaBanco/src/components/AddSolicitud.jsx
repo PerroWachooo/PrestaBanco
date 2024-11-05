@@ -34,7 +34,7 @@ const AddSolicitud = () => {
     const [loan_type, setLoan_type] = useState("");
     const [fee, setFee] = useState(0.0); // Pago mensual
     const [creditInsurance, setCreditInsurance] = useState(0.0); // Seguro de crédito
-    const [monthlyFireInsurance, setMonthlyFireInsurance] = useState(0.0); // Seguro contra incendios mensual
+    const [monthlyFireInsurance, setMonthlyFireInsurance] = useState(0); // Seguro contra incendios mensual
     const [administrationCommission, setAdministrationCommission] = useState(0.0); // Comisión de administración
     const [propertyValue, setPropertyValue] = useState(""); // Valor de la propiedad
 
@@ -134,9 +134,9 @@ const AddSolicitud = () => {
         formData.append("term", term);
         formData.append("loan_type", loan_type);
         formData.append("fee", fee);
-        formData.append("creditInsurance", creditInsurance);
-        formData.append("monthlyFireInsurance", monthlyFireInsurance);
-        formData.append("administrationCommission", administrationCommission);
+        formData.append("creditInsurance", 0.0003 * amount);
+        formData.append("monthlyFireInsurance", 20000);
+        formData.append("administrationCommission", 0.01 * amount);
         formData.append("propertyValue", propertyValue);
         formData.append("consistentSaveCheck", consistentSaveCheck);
         formData.append("periodicDepositsCheck", periodicDepositsCheck);

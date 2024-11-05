@@ -44,4 +44,8 @@ const calculateFee = data => {
     return httpCommon.post("api/v1/loanaplication/calculateFee", data);
 }
 
-export default {getAllLoanAplications, getLoanAplicationByRut, create, update, deleteLoanAplication, uploadFiles,calculateFee, getLoanAplicationById};
+const calculateTotalCost = id => {
+    return httpCommon.get(`api/v1/loanaplication/calculateTotalCost/${id}`);
+}
+
+export default {calculateTotalCost, getAllLoanAplications, getLoanAplicationByRut, create, update, deleteLoanAplication, uploadFiles,calculateFee, getLoanAplicationById};

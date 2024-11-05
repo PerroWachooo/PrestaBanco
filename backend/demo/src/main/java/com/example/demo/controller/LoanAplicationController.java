@@ -212,6 +212,17 @@ public class LoanAplicationController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("calculateTotalCost/{id}")
+    public ResponseEntity<Double> calculateTotalCost(@PathVariable Long id) {
+        return loanAplicationService.getLoanAplicationById(id)
+                .map(loanApplication -> {
+                    double totalCost = simulationService.totalCostCal(loanApplication);
+                    return ResponseEntity.ok(totalCost);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUserById(@PathVariable Long id) throws Exception {
         var isDeleted = loanAplicationService.deleteLoan(id);

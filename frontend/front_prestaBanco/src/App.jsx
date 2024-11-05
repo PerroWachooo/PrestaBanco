@@ -9,6 +9,7 @@ import UsersList from './components/UsersList';
 import SimulateLoan from './components/SimulateLoan';
 import AddSolicitud from './components/AddSolicitud';
 import LoanAplicationList from './components/LoanAplicationList';
+import TotalCostLoan from './components/TotalCostLoan';
 
 
 
@@ -27,6 +28,7 @@ function App() {
           <Route path= "/aplication" element={<AddSolicitud/>}/>
           <Route path= "/aplication/:id" element={<AddSolicitud/>}/>
           <Route path= "/aplication/list" element={<LoanAplicationList/>}/>
+          <Route path= "/aplication/totalCost" element={<TotalCostLoan/>}/>"
         </Routes>
 
       </div>
