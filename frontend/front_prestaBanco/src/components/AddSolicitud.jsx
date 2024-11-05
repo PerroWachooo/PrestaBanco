@@ -123,7 +123,11 @@ const AddSolicitud = () => {
             return;
         }
 
-    
+        
+        setAdministrationCommission(0.01 * amount);
+        setCreditInsurance(0.0003 * amount);
+        setMonthlyFireInsurance(20000);
+
         const formData = new FormData();
         formData.append("id", id);
         formData.append("simulation", simulation);
@@ -134,9 +138,9 @@ const AddSolicitud = () => {
         formData.append("term", term);
         formData.append("loan_type", loan_type);
         formData.append("fee", fee);
-        formData.append("creditInsurance", 0.0003 * amount);
-        formData.append("monthlyFireInsurance", 20000);
-        formData.append("administrationCommission", 0.01 * amount);
+        formData.append("creditInsurance", creditInsurance);
+        formData.append("monthlyFireInsurance", monthlyFireInsurance);
+        formData.append("administrationCommission", administrationCommission);
         formData.append("propertyValue", propertyValue);
         formData.append("consistentSaveCheck", consistentSaveCheck);
         formData.append("periodicDepositsCheck", periodicDepositsCheck);
