@@ -238,7 +238,7 @@ const SimulateLoan = () => {
                                 }
                             }}
                             >
-                            Simular
+                            Simular Credito
                         </Button>
                     </FormControl>
                 </form>
